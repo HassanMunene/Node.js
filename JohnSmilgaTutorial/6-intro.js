@@ -22,6 +22,8 @@ const getText = (path) => {
 const readLogText = async () => {
     try {
         const result = await getText('./content/first.txt');
+        const second = await getText('./content/second.txt');
+        console.log(second);
         console.log(result);
     } catch (error) {
         console.log(error);
