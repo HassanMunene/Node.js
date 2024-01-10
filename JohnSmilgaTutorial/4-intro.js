@@ -22,7 +22,7 @@ const getText = (path) => {
         });
     });
 }
-getText('./content/first.txt')
+getText('./content/second.txt')
 .then((result) => {
     console.log(result);
 })
