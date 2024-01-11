@@ -1,11 +1,20 @@
 const http = require('http');
-const circularJSON = require('circular-json');
+const {readFileSync} = require('fs');
 
-http.createServer((request, response) =>{
+const homePage = readFileSync('./index.html')
+
+const server = http.createServer((request, response) =>{
     console.log('client hit the server');
-    let req = circularJSON.stringify(request);
-    response.writeHead(200, {'content-type':'text/html'});
-    response.write(`<h1>yooo</h1>`);
-    response.end()
+    const url = request.url;
+    if (url === '/') {
+        response.writeHead(200, {'content-type': 'text/html'});
+        response.write(homePage);
+        response.end();
+    } else {
+        response.writeHead(200, {'content-type': 'text/plain'})
+        response.write('Page not found')
+        response.end()
+    }
+});
 
-}).listen(5003,()=>console.log('listening...'));
+server.listen(5003,()=>console.log('listening...'));
