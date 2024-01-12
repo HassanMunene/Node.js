@@ -12,11 +12,35 @@ app.get('/', (request, response) => {
 app.get('/api/products/:productID', (request, response) => {
     console.log(request.params);
     const productID = parseInt(request.params.productID);
-    console.log(typeof(productID));
+
     singleProduct = products.find((product) => {
         return product.id === productID;
     })
+    if (!singleProduct) {
+        response.status(404);
+        response.send("<h1>This product cannot be found</h1>")
+    }
     response.send(singleProduct);
+})
+
+app.get('/api/v1/query', (request, response) => {
+    const { search, limit } = request.query;
+    // //const newProduct = [...products];
+    // //console.log(newProduct);
+    // if (newProduct === products) {
+    //     console.log('equal');
+    // }
+    let filteredProducts = [...products]
+    if (search) {
+        filteredProducts = products.filter((product) => {
+            return product.name.startsWith(search);
+        })
+    }
+    if (limit) {
+        filteredProducts = filteredProducts.slice(0, Number(limit));
+    }
+    console.log(filteredProducts);
+    response.send(filteredProducts);
 })
 
 app.get('*', (request, response) => {
