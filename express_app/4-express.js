@@ -9,11 +9,14 @@ app.get('/', (request, response) => {
     );
 })
 
-app.get('/api/products/1', (request, response) => {
-    singleProduct = products.find((product) => {
-        return product.id === 1;
+app.get('/api/products', (request, response) => {
+    const newProducts = products.map((singleProduct) => {
+        const {id, name, image} = singleProduct;
+        //console.log(`id:${id} name:${name}, image:${image}`)
+        return {id, name, image};
     })
-    response.send(singleProduct);
+    console.log(newProducts);
+    response.send(newProducts);
 })
 
 app.get('*', (request, response) => {
