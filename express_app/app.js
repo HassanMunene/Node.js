@@ -9,9 +9,12 @@ app.get('/', (request, response) => {
     );
 })
 
-app.get('/api/products/1', (request, response) => {
+app.get('/api/products/:productID', (request, response) => {
+    console.log(request.params);
+    const productID = parseInt(request.params.productID);
+    console.log(typeof(productID));
     singleProduct = products.find((product) => {
-        return product.id === 1;
+        return product.id === productID;
     })
     response.send(singleProduct);
 })
