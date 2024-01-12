@@ -1,20 +1,11 @@
 const express = require('express');
+const { people } = require('./data');
+
 const app = express();
 
-const logger = (request, response, next) => {
-    const method = request.method;
-    const url = request.url;
-    const time = new Date();
-    console.log(method, url, time);
-    next();
-}
-app.use(logger)
-
-app.get('/', (request, response) => {
-    response.send('Home')
-})
-app.get('/about', (request, response) => {
-    response.send('About');
+app.get('/api/people', (request, response) => {
+    response.status(200);
+    response.json({success: true, data: people});
 })
 
 app.listen(5003, () => {
