@@ -9,6 +9,8 @@ const port = 5000;
 // app.get('/', (req, res)=> {
 //     res.send('Task manager application')
 // })
+app.use(express.json());
+
 app.use('/api/v1/tasks', tasksRoute);
 app.get('/hello', (req, res)=> {
     res.send('Hello there mate')
