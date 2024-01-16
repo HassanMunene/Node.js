@@ -7,6 +7,7 @@ const model = mongoose.model;
 
 const taskSchema = new Schema({
     name: String,
+    age: Number,
     completed: Boolean
 });
 const Task = model("Task", taskSchema);
