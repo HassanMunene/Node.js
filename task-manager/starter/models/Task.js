@@ -6,9 +6,17 @@ const model = mongoose.model;
 //const { Schema, model } = mongoose;
 
 const taskSchema = new Schema({
-    name: String,
+    name: {
+        type: String,
+        required: [true, 'must provide a name'],
+        trim: true,
+        maxLength: [30, 'name should not be more than 30 chars'] 
+    },
     age: Number,
-    completed: Boolean
+    completed: {
+        type: Boolean,
+        default: false
+    }
 });
 const Task = model("Task", taskSchema);
 
