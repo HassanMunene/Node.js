@@ -52,25 +52,34 @@ const showTasks = async () => {
 }
 showTasks();
 
-formDOM.addEventListener('click', async (e) => {
+formDOM.addEventListener('submit', async (e) => {
     e.preventDefault();
     const name = taskInputDOM.value;
 
-    try {
-        await axios.post('/api/v1/tasks', {name})
-        showTasks();
-        taskInputDOM.value = '';
+    if (name !== '') {
+        try {
+            await axios.post('/api/v1/tasks', {name})
+            showTasks();
+            taskInputDOM.value = '';
+            formAlertDOM.style.display = 'block';
+            formAlertDOM.textContent = 'Success, task added';
+            formAlertDOM.classList.add('text-success');
+        } catch (error) {
+            formAlertDOM.style.display = 'block';
+            formAlertDOM.innerHTML = 'error, please try again';
+        }
+        setTimeout(() => {
+            formAlertDOM.style.display = 'none';
+            formAlertDOM.classList.remove('text-success');
+        }, 3000)
+    } else {
         formAlertDOM.style.display = 'block';
-        formAlertDOM.textContent = 'Success, task added';
-        formAlertDOM.classList.add('text-success');
-    } catch (error) {
-        formAlertDOM.style.display = 'block';
-        formAlertDOM.innerHTML = 'error, please try again';
+        formAlertDOM.innerHTML = 'please enter a task'
+        setTimeout(() => {
+            formAlertDOM.style.display = 'none';
+            formAlertDOM.innerHTML = ''
+        }, 2000)
     }
-    setTimeout(() => {
-        formAlertDOM.style.display = 'none';
-        formAlertDOM.classList.remove('text-success');
-    }, 3000)
 })
 
 // deleting the tasks
@@ -80,7 +89,7 @@ tasksDOM.addEventListener('click', async(eventObj) => {
         //loadingDOM.style.visibility = 'visible'
         // extract the task id from the dataset(data-id)
         const id = targetElement.parentElement.dataset.id
-        console.log('trash clicked')
+        //console.log('trash clicked')
         try {
             await axios.delete(`/api/v1/tasks/${id}`)
             showTasks();
