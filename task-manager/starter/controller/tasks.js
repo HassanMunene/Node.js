@@ -27,6 +27,7 @@ const getTask = async (req, res) => {
     }
 }
 const createTask = async (req, res) => {
+    console.log(req.body)
     const task1 = new Task(req.body);
     try {
         await task1.save();
