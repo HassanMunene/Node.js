@@ -5,12 +5,10 @@ const connectDB = require('./db/connect');
 require('dotenv').config()
 
 const port = 5000;
+app.use(express.static('./public'));
 app.use(express.json());
 
 app.use('/api/v1/tasks', tasksRoute);
-app.get('/hello', (req, res)=> {
-    res.send('Hello there mate')
-})
 
 const startServer= async () => {
     try {
