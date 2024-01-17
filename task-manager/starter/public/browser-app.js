@@ -5,6 +5,8 @@ const formAlertDOM = document.querySelector('.form-alert');
 const loadingDOM = document.querySelector('.loading-text');
 const tasksDOM = document.querySelector('.tasks');
 
+// this methods is invoked immediately the document is loaded it basically loads all the tasks.
+// it is also invoked when user adds another task to be completed!
 const showTasks = async () => {
     //loadingDOM.style.visibility = 'visible';
     try {
@@ -34,7 +36,7 @@ const showTasks = async () => {
                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                             </svg>
                         </a>
-                        <button type="button" class="delete-btn">
+                        <button type="button" class="delete-btn" data-id="${taskID}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                             <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
                             </svg>
@@ -56,7 +58,7 @@ formDOM.addEventListener('click', async (e) => {
 
     try {
         await axios.post('/api/v1/tasks', {name})
-        //showTasks();
+        showTasks();
         taskInputDOM.value = '';
         formAlertDOM.style.display = 'block';
         formAlertDOM.textContent = 'Success, task added';
@@ -69,4 +71,22 @@ formDOM.addEventListener('click', async (e) => {
         formAlertDOM.style.display = 'none';
         formAlertDOM.classList.remove('text-success');
     }, 3000)
+})
+
+// deleting the tasks
+tasksDOM.addEventListener('click', async(eventObj) => {
+    const targetElement = eventObj.target
+    if (targetElement.parentElement.classList.contains('delete-btn')) {
+        //loadingDOM.style.visibility = 'visible'
+        // extract the task id from the dataset(data-id)
+        const id = targetElement.parentElement.dataset.id
+        console.log('trash clicked')
+        try {
+            await axios.delete(`/api/v1/tasks/${id}`)
+            showTasks();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    //loadingDOM.style.visibility = 'hidden'
 })
