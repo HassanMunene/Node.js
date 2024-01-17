@@ -222,7 +222,7 @@ TASKS
     gap: 1rem;
 }
 .single-task {
-    padding: 1rem 2.5rem;
+    padding: 2rem 2.5rem;
     background-color: var(--white);
     border-radius: var(--borderRadius);
     box-shadow: var(--shadow-2);
@@ -237,6 +237,7 @@ TASKS
 }
 .single-task h5 {
     margin-bottom: 0;
+    margin-top: 0;
 }
 .single-task span {
     display: inline-block;
@@ -244,4 +245,23 @@ TASKS
     height: .5rem;
     margin-left: -1.25rem;
     margin-right: 1.5rem;
+}
+
+/*
+========================
+TASKS LINKS
+========================
+*/
+.delete-btn,
+.edit-link {
+    background-color: transparent;
+    font-size: .75rem;
+    border: transparent;
+    cursor: pointer;
+}
+.edit-link {
+    color: var(--green-dark);
+}
+.delete-btn {
+    color: var(--red-dark);
 }
