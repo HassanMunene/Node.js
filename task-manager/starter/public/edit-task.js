@@ -9,10 +9,16 @@ let tempName;
 
 const queryString = window.location.search;
 const URLparams = new URLSearchParams(queryString);
+//console.log(URLparams);
 const id = URLparams.get('id');
+
+if (!id) {
+    console.log('No id found');
+}
 
 const showTask = async () => {
     try {
+        //console.log(id);
         const response = await axios.get(`/api/v1/tasks/${id}`);
         const task = response.data.task;
         const { _id: taskID, completed, name } = task;
