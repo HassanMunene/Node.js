@@ -1,25 +1,24 @@
 const express = require('express');
-const expressListEndpoints = require('express-list-endpoints');
 const app = express();
 const tasksRoute = require('./routes/tasks');
 const connectDB = require('./db/connect');
 require('dotenv').config()
+const notFound = require('./middleware/not_found');
 
-const port = 5001;
+const port = 5000;
+
+//middleware
 app.use(express.static('./public'));
 app.use(express.json());
 
-// app.get('/task.html', (req, res) => {
-//     res.send('yooo');
-// })
-
+//routes
 app.use('/api/v1/tasks', tasksRoute);
-console.log(expressListEndpoints(app));
+app.use(notFound);
 
 const startServer= async () => {
     try {
         await connectDB(process.env.MONGO_URI2);
-        app.listen(port, console.log('Server listening on port 5001...'));
+        app.listen(port, console.log(`Server listening on port ${port}...`));
     } catch (error) {
         console.log(`The errororororrrrrr: ${error}`);   
     }
