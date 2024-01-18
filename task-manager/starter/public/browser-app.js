@@ -5,6 +5,7 @@ const formAlertDOM = document.querySelector('.form-alert');
 const loadingDOM = document.querySelector('.loading-text');
 const tasksDOM = document.querySelector('.tasks');
 
+
 // this methods is invoked immediately the document is loaded it basically loads all the tasks.
 // it is also invoked when user adds another task to be completed!
 const showTasks = async () => {
@@ -46,11 +47,28 @@ const showTasks = async () => {
             `)
         }).join('')
         tasksDOM.innerHTML = allTasks;
+
+        const deleteButtons = tasksDOM.querySelectorAll('.delete-btn');
+        const deleteButtonsArray = [...deleteButtons];
+        deleteButtonsArray.forEach((btn) => {
+            btn.addEventListener('click', async (eventObj) => {
+                //console.log(btn);
+                eventObj.preventDefault();
+                const id = btn.dataset.id;
+                //console.log(id);
+                try {
+                    await axios.delete(`/api/v1/${id}`)
+                } catch (error) {
+                    
+                }
+            })
+        })
     } catch (error) {
         tasksDOM.innerHTML = '<h5 class="empty-list">There was an error, please try later....</h5>'
     } 
 }
 showTasks();
+
 
 formDOM.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -83,19 +101,20 @@ formDOM.addEventListener('submit', async (e) => {
 })
 
 // deleting the tasks
-tasksDOM.addEventListener('click', async(eventObj) => {
-    const targetElement = eventObj.target
-    if (targetElement.parentElement.classList.contains('delete-btn')) {
-        //loadingDOM.style.visibility = 'visible'
-        // extract the task id from the dataset(data-id)
-        const id = targetElement.parentElement.dataset.id
-        //console.log('trash clicked')
-        try {
-            await axios.delete(`/api/v1/tasks/${id}`)
-            showTasks();
-        } catch (error) {
-            console.log(error);
-        }
-    }
-    //loadingDOM.style.visibility = 'hidden'
-})
+// tasksDOM.addEventListener('click', async(eventObj) => {
+//     const targetElement = eventObj.target
+//     console.log(targetElement.parentElement.classList);
+//     if (targetElement.parentElement.classList.contains('delete-btn')) {
+//         //loadingDOM.style.visibility = 'visible'
+//         // extract the task id from the dataset(data-id)
+//         const id = targetElement.parentElement.dataset.id
+//         //console.log('trash clicked')
+//         try {
+//             await axios.delete(`/api/v1/tasks/${id}`)
+//             showTasks();
+//         } catch (error) {
+//             console.log(error);
+//         }
+//     }
+//     //loadingDOM.style.visibility = 'hidden'
+// })
