@@ -38,7 +38,7 @@ const showTasks = async () => {
                             </svg>
                         </a>
                         <button type="button" class="delete-btn" data-id="${taskID}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill delete-btn" viewBox="0 0 16 16 " data-id="${taskID}">
                             <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
                             </svg>
                         </button>
@@ -47,22 +47,6 @@ const showTasks = async () => {
             `)
         }).join('')
         tasksDOM.innerHTML = allTasks;
-
-        const deleteButtons = tasksDOM.querySelectorAll('.delete-btn');
-        const deleteButtonsArray = [...deleteButtons];
-        deleteButtonsArray.forEach((btn) => {
-            btn.addEventListener('click', async (eventObj) => {
-                //console.log(btn);
-                eventObj.preventDefault();
-                const id = btn.dataset.id;
-                //console.log(id);
-                try {
-                    await axios.delete(`/api/v1/${id}`)
-                } catch (error) {
-                    
-                }
-            })
-        })
     } catch (error) {
         tasksDOM.innerHTML = '<h5 class="empty-list">There was an error, please try later....</h5>'
     } 
@@ -101,20 +85,20 @@ formDOM.addEventListener('submit', async (e) => {
 })
 
 // deleting the tasks
-// tasksDOM.addEventListener('click', async(eventObj) => {
-//     const targetElement = eventObj.target
-//     console.log(targetElement.parentElement.classList);
-//     if (targetElement.parentElement.classList.contains('delete-btn')) {
-//         //loadingDOM.style.visibility = 'visible'
-//         // extract the task id from the dataset(data-id)
-//         const id = targetElement.parentElement.dataset.id
-//         //console.log('trash clicked')
-//         try {
-//             await axios.delete(`/api/v1/tasks/${id}`)
-//             showTasks();
-//         } catch (error) {
-//             console.log(error);
-//         }
-//     }
-//     //loadingDOM.style.visibility = 'hidden'
-// })
+tasksDOM.addEventListener('click', async(eventObj) => {
+    const targetElement = eventObj.target
+    console.log(targetElement.parentElement.classList);
+    if (targetElement.parentElement.classList.contains('delete-btn')) {
+        //loadingDOM.style.visibility = 'visible'
+        // extract the task id from the dataset(data-id)
+        const id = targetElement.parentElement.dataset.id
+        //console.log('trash clicked')
+        try {
+            await axios.delete(`/api/v1/tasks/${id}`)
+            showTasks();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    //loadingDOM.style.visibility = 'hidden'
+})
