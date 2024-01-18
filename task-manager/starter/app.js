@@ -18,7 +18,7 @@ console.log(expressListEndpoints(app));
 
 const startServer= async () => {
     try {
-        await connectDB(process.env.MONGO_URI);
+        await connectDB(process.env.MONGO_URI2);
         app.listen(port, console.log('Server listening on port 5001...'));
     } catch (error) {
         console.log(`The errororororrrrrr: ${error}`);   
