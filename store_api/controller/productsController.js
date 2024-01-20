@@ -7,7 +7,7 @@ const getAllProductsStatic = async (req, res) => {
 }
 
 const getAllProducts = async (req, res) => {
-    const { featured, company, name, sort, field, limit } = req.query;
+    const { featured, company, name, sort, field, limit, numericFilter } = req.query;
     const queryObject = {};
 
     if (featured) {
@@ -37,6 +37,9 @@ const getAllProducts = async (req, res) => {
         result = result.limit(limit);
     } else {
         result = result.limit(10);
+    }
+    if (numericFilter) {
+        console.log(numericFilter)
     }
     const products = await result;
     res.status(200).json({products: products, nbHits: products.length});
