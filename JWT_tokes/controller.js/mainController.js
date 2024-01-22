@@ -15,14 +15,14 @@ const login = async (req, res, next) => {
         res.status(201).json({msg: 'user created', token: token})
     } catch (error) {
         console.log(error)
-        const err = new CustomError('Please provide username and password', 400);
-        next(err);
+        throw new CustomError('Please provide username and password', 400);
     }
 }
 
 const dashboard = (req, res) => {
+    //console.log(req.user)
     const luckyNumber = Math.floor(Math.random() *100);
-    res.status(200).json({msg: `Hello, Hassan Munene`, secret: `Here is your lucky number: ${luckyNumber}`});
+    res.status(200).json({msg: `Hello, ${req.user.username}`, secret: `Here is your lucky number: ${luckyNumber}`});
 }
 
 module.exports = {

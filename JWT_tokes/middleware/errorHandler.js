@@ -3,7 +3,7 @@ const errorHandlerMid = (error, req, res, next) => {
     error.status = error.status || 'Ooops something is wrong'
     res.status(error.statusCode).json({
         status: error.status,
-        msg: error.message
+        msg: error
     })
 }
 
