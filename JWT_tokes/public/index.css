@@ -85,11 +85,58 @@ form {
     margin: 3rem auto;
 }
 .contact-form {
-    max-width: 500px;
+    max-width: 400px;
 }
 .contact-form h5 {
     text-align: center;
     margin: 0;
     margin-bottom: 1.4rem;
     font-family: var(--headingFont);
+    line-height: 1.3;
+    text-transform: capitalize;
+    letter-spacing: var(--letterSpacing);
+    font-size: 1.25rem;
+}
+.form-row {
+    margin-bottom: 1rem;
+}
+.form-label {
+    display: block;
+    font-size: .85rem;
+    margin-bottom: .5rem;
+    text-transform: capitalize;
+    letter-spacing: var(--letterSpacing);
+}
+.form-input {
+    width: 100%;
+    padding: .38rem .75rem;
+    border-radius: var(--borderRadius);
+    border: 1px solid var(--grey-300);
+    background-color: var(--backgroundColor);
+}
+.form-alert {
+    color: var(--red-dark);
+    letter-spacing: var(--letterSpacing);
+    text-transform: capitalize;
+    text-align: center;
+    margin-bottom: .5rem;
+}
+.text-small {
+    font-size: .85rem;
+}
+
+.btn {
+    cursor: pointer;
+    color: var(--white);
+    background-color: var(--primary-500);
+    border: transparent;
+    border-radius: var(--borderRadius);
+    letter-spacing: var(--letterSpacing);
+    padding: 0.38rem 0.75rem;
+    box-shadow: var(--shadow-1);
+    text-transform: capitalize;
+    display: inline-block;
+}
+.btn-block {
+    width: 100%;
 }
