@@ -5,6 +5,7 @@ const CustomError = require('../error/customError');
 const login = async (req, res, next) => {
     try {
         const {username, password} = req.body;
+        console.log(username, password);
         const user = await User.create({
             username: username,
             password: password

@@ -115,11 +115,19 @@ form {
     background-color: var(--backgroundColor);
 }
 .form-alert {
-    color: var(--red-dark);
     letter-spacing: var(--letterSpacing);
     text-transform: capitalize;
     text-align: center;
     margin-bottom: .5rem;
+    display: none;
+}
+.text-alert {
+    color: var(--red-dark);
+    display: block;
+}
+.text-success {
+    color: var(--green-dark);
+    display: block;
 }
 .text-small {
     font-size: .85rem;
@@ -158,8 +166,7 @@ form {
     font-size: 1.56rem;
 }
 .token {
-    color: var(--red-dark);
-    font-size: var(--smallText);
+    font-size: .85rem;
     text-align: center;
     margin-top: 0;
     text-transform: capitalize;

@@ -5,6 +5,7 @@ const alertContainer = document.querySelector('.form-alert');
 const tokenAlert = document.querySelector('.token');
 const resultsArea = document.querySelector('.results');
 
+const getDataBtn = document.querySelector('#data');
 //console.log(typeof(formContainer));
 
 formContainer.addEventListener('submit', async(e) => {
@@ -32,10 +33,44 @@ formContainer.addEventListener('submit', async(e) => {
         resultsArea.innerHTML = '';
 
     } catch (error) {
-       console.log(error); 
+        alertContainer.textContent = 'Sorry user not created something is off';
+        alertContainer.classList.add('text-alert');
+        localStorage.removeItem('token')
+        tokenAlert.textContent = 'token not present'
+        tokenAlert.classList.remove('text-success');
+        resultsArea.innerHTML = '';
+        console.log(error); 
     }
     setTimeout(() => {
         alertContainer.textContent = '';
         alertContainer.classList.remove('text-success');
-    }, 3000)
+    }, 2000)
 })
+
+getDataBtn.addEventListener('click', async () => {
+    const token = localStorage.getItem('token');
+    try {
+        const response = await axios.get('/api/v1/dashboard', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        console.log(response);
+        const {msg, secret} = response.data;
+        resultsArea.innerHTML = `<h4>${msg}</h4><br><p>${secret}</p>`
+    } catch (error) {
+        localStorage.removeItem('token');
+        resultsArea.innerHTML = `<p>Error</p>`
+    }
+})
+
+const checkTokenInLocalStorage = () => {
+    tokenAlert.classList.remove('text-success');
+    const token = localStorage.getItem('token');
+
+    if (token) {
+        tokenAlert.textContent = 'token present';
+        tokenAlert.classList.add('text-success');
+    }
+}
+checkTokenInLocalStorage();
