@@ -3,11 +3,18 @@ const express = require('express');
 const connectDB = require('./db/connect');
 const notFoundMiddleware = require('./middleware/notFound');
 
+
 const app = express();
 const port = process.env.PORT;
 
 app.use(express.static('./public'))
 app.use(express.json());
+
+//routes
+const jobsRoute = require('./routes/jobsRoute');
+const authRoute = require('./routes/authRoute');
+app.use('/api/v1/jobs', jobsRoute);
+app.use('/api/v1/auth', authRoute);
 
 app.get('/hello', (req, res) => {
     res.status(200).json({msg: "hello there mate"});
