@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const connectDB = require('./db/connect');
 const notFoundMiddleware = require('./middleware/notFound');
+const errorHandlerMiddleware = require('./middleware/errorHandler');
 
 
 const app = express();
@@ -20,6 +21,7 @@ app.get('/hello', (req, res) => {
     res.status(200).json({msg: "hello there mate"});
 })
 app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
 
 
 const startApp = async () => {
