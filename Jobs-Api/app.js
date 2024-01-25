@@ -1,12 +1,27 @@
 require('dotenv').config();
 const express = require('express');
+const connectDB = require('./db/connect');
+const notFoundMiddleware = require('./middleware/notFound');
+
 const app = express();
 const port = process.env.PORT;
 
 app.use(express.static('./public'))
+app.use(express.json());
 
 app.get('/hello', (req, res) => {
     res.status(200).json({msg: "hello there mate"});
 })
+app.use(notFoundMiddleware);
 
-app.listen(port, console.log(`Server is listening on port ${port}`))
+
+const startApp = async () => {
+    try {
+        // first connect application to the database and spin up the server
+        await connectDB(process.env.MONGO_URI);
+        app.listen(port, console.log(`Server is listening on port ${port}`));
+    } catch (error) {
+        console.log(error);
+    }
+}
+startApp();
