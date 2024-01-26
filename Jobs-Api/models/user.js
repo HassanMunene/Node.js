@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const { Schema, model } = mongoose;
 
@@ -25,6 +26,17 @@ const userSchema = new Schema({
     },
 })
 
+// create a mongoose middleware before saving the data
+userSchema.pre('save', async function (next) {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+})
+
+userSchema.methods.validatePassword = async function (candidatePassword) {
+    const isMatch = await bcrypt.compare(candidatePassword, this.password);
+    return isMatch;
+}
 // create a model from the schema
 const User = model('User', userSchema);
 module.exports = User;
